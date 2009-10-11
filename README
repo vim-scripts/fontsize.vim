@@ -1,0 +1,77 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=2809
+
+===============================================================================
+Introduction                                        *fontsize-intro*
+
+This plugin provides convenient mappings for changing the font size in Gvim.
+
+  <Leader>==    Begin "font size" mode
+  <Leader>++    Increment font size
+  <Leader>--    Decrement font size
+  <Leader>00    Revert to default font size
+
+(Note that by default, <Leader> is the backslash character, so for example
+<Leader>++ is invoked by pressing \++ from normal mode.)
+
+The above mappings initiate a "font size" mode in which the following
+additional individual keys become active:
+
+  +          Increment font size (may also use = to avoid shift key)
+  -          Decrement font size
+  0          Revert to default font size
+  !          Save current size as new default
+  q          Quit "font size" mode
+  <SPACE>    Quit "font size" mode
+  <CR>       Quit "font size" mode
+
+Other keys pressed will exit "font size" mode and perform their normal
+function.
+
+In addition, "font size" mode will automatically timeout after |timeoutlen|
+milliseconds have elapsed without a keypress, because "font size" mode is
+based on mappings.
+
+Details on customization are found in the |fontsize-customization| section
+of the included documentation.
+
+===============================================================================
+Customization                                       *fontsize-customization*
+
+The default value of |timeoutlen| is 1000 milliseconds (1 second), which might
+be too fast.  The author uses the following setting in his |vimrc|: >
+
+  " Slow down mapping timeout from default 1000 milliseconds.
+  set timeoutlen=3000
+
+You may change the mappings that initiate "font size" mode by creating
+your own mappings in your |vimrc|file.  For example, use these mappings
+to use single characters instead of doubled ones:
+
+  nmap <silent> <Leader>=  <Plug>FontsizeBegin
+  nmap <silent> <Leader>+  <Plug>FontsizeInc
+  nmap <silent> <Leader>-  <Plug>FontsizeDec
+  nmap <silent> <Leader>0  <Plug>FontsizeDefault
+
+Or, use a single mapping to begin "font size" mode and disable other mappings:
+
+  nmap <silent> <F8>                        <Plug>FontsizeBegin
+  nmap <silent> <SID>DisableFontsizeInc     <Plug>FontsizeInc
+  nmap <silent> <SID>DisableFontsizeDec     <Plug>FontsizeDec
+  nmap <silent> <SID>DisableFontsizeDefault <Plug>FontsizeDefault
+
+Any mapping to <Plug>FontsizeXxx overrides the default mappings, even if that
+mapping is meaningless like <SID>SomeRandomName.
+
+Normally, the plugin detects the default font size from 'guifont".  This may
+be overridden in the |vimrc| file.  E.g., to set the default to 12: >
+
+  let g:fontsize#defaultSize = 12
+
+If your Gvim uses a different encoding for 'guifont' than what's found in
+'encoding', you can set g:fontsize#encoding in your |vimrc| file to convert
+the font names.  For example, on Chinese Windows XP, the fonts are encoded in
+"gbk", so if you use "utf8" for your 'encoding', you'd use the following: >
+
+  let g:fontsize#encoding = "gbk"
+
+(Converting font name encodings requires the +iconv feature.)

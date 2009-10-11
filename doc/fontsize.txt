@@ -1,0 +1,104 @@
+*fontsize.txt*   Plugin for modifying guifont size
+
+*fontsize*       Version 0.1.0          Last Change:  October 11, 2009
+
+==============================================================================
+1.  Introduction                                    |fontsize-intro|
+2.  Installation                                    |fontsize-installation|
+3.  Customization                                   |fontsize-customization|
+4.  Credits                                         |fontsize-credits|
+5.  Distribution                                    |fontsize-distribution|
+
+==============================================================================
+1.  Introduction                                    *fontsize-intro*
+
+This plugin provides convenient mappings for changing the font size in Gvim.
+
+  <Leader>++    Increment font size
+  <Leader>==    Increment font size
+  <Leader>--    Decrement font size
+  <Leader>00    Reset to default font size
+
+The above mappings initiate a "font size" mode in which the following
+additional individual keys become active:
+
+  +          Increment font size
+  =          Increment font size
+  -          Decrement font size
+  0          Revert to default font size
+  !          Save current size as new default
+  q          Quit "font size" mode
+  <SPACE>    Quit "font size" mode
+  <CR>       Quit "font size" mode
+
+Other keys pressed will exit "font size" mode and perform their normal
+function.
+
+In addition, "font size" mode will automatically timeout after |timeoutlen|
+milliseconds have elapsed without a keypress, because "font size" mode is
+based on mappings.
+
+The default value of |timeoutlen| is 1000 milliseconds (1 second), which might
+be too fast.  I'm using the following in my |vimrc|: >
+
+  " Slow down mapping timeout from default 1000 milliseconds.
+  set timeoutlen=3000
+
+===============================================================================
+2.  Installation                                    *fontsize-installation*
+
+Must be installed using the Vimball plugin, found here:
+http://vim.sourceforge.net/scripts/script.php?script_id=1502
+
+Open fontsize-x.y.z.vba with Vim: >
+
+  vim fontsize-x.y.z.vba
+
+With the Vimball open in Vim, extract the files with the :source command: >
+
+  :source %
+
+===============================================================================
+3.  Customization                                   *fontsize-customization*
+
+You may change the mappings that initiate "font size" mode by creating
+your own mappings in your |vimrc|file.  For example, use these mappings
+to use single characters instead of doubled ones:
+
+  nmap <silent> \+  <Plug>FontsizeInc
+  nmap <silent> \=  <Plug>FontsizeInc
+  nmap <silent> \-  <Plug>FontsizeDec
+  nmap <silent> \0  <Plug>FontsizeDefault
+
+===============================================================================
+4.  Credits                                         |fontsize-credits|
+
+Author: Michael Henry <vim at drmikehenry.com>
+
+Thanks to all the tireless posters on the Vim mailing lists.  I have
+benefitted greatly from the detailed and helpful postings contributed daily
+by the helpful Vim community.
+
+Thanks also to Andy Wokula, author of the bufmru plugin
+(http://www.vim.org/scripts/script.php?script_id=2346),
+for writing a clever plugin from which I learned to use
+chained keymaps to implement "modes".
+
+===============================================================================
+5.  Distribution                                    |fontsize-distribution|
+
+- Ensure version and date are correct at top of doc/fontsize.txt.
+- Visually select the following lines:
+
+plugin/fontsize.vim
+autoload/fontsize.vim
+doc/fontsize.txt
+
+- Create Vimball based on version number (e.g., 0.1.0) as follows: >
+
+  :MkVimball! fontsize-0.1.0
+
+- Distribute fontsize-0.1.0.vba.
+
+===============================================================================
+vim:sts=2:et:ai:tw=78:fo=tcq2:ft=help:
