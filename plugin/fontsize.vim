@@ -11,9 +11,12 @@ let loaded_fontsize = 1
 let s:save_cpoptions = &cpoptions
 set cpoptions&vim
 
+if ! hasmapto("<Plug>FontsizeBegin")
+    nmap <silent> <Leader>==  <Plug>FontsizeBegin
+endif
+
 if ! hasmapto("<Plug>FontsizeInc", "n")
     nmap <silent> <Leader>++  <Plug>FontsizeInc
-    nmap <silent> <Leader>==  <Plug>FontsizeInc
 endif
 
 if ! hasmapto("<Plug>FontsizeDec", "n")
@@ -36,10 +39,15 @@ endif
 " <SID>m_, keeping an extensible chain of mappings going as long as
 " they arrive before 'timeoutlen' milliseconds elapses between keystrokes.
 
-nmap <silent> <Plug>FontsizeInc       <SID>m_+
-nmap <silent> <Plug>FontsizeDec       <SID>m_-
-nmap <silent> <Plug>FontsizeDefault   <SID>m_0
+" Externally mappable mappings to internal mappings.
+nmap <silent> <Plug>FontsizeBegin       <SID>begin<SID>m_
+nmap <silent> <Plug>FontsizeInc         <SID>inc<SID>m_
+nmap <silent> <Plug>FontsizeDec         <SID>dec<SID>m_
+nmap <silent> <Plug>FontsizeDefault     <SID>default<SID>m_
+nmap <silent> <Plug>FontsizeSetDefault  <SID>setDefault<SID>m_
+nmap <silent> <Plug>FontsizeQuit        <SID>quit
 
+" "Font size" mode mappings.  m_<KEY> maps <KEY> in "font size" mode.
 nmap <silent> <SID>m_+        <SID>inc<SID>m_
 nmap <silent> <SID>m_=        <SID>inc<SID>m_
 nmap <silent> <SID>m_-        <SID>dec<SID>m_
@@ -50,16 +58,13 @@ nmap <silent> <SID>m_<SPACE>  <SID>quit
 nmap <silent> <SID>m_<CR>     <SID>quit
 nmap <silent> <SID>m_         <SID>quit
 
+" Action mappings.
+nnoremap <silent> <SID>begin       :call fontsize#begin()<CR>
 nnoremap <silent> <SID>inc         :call fontsize#inc()<CR>
 nnoremap <silent> <SID>dec         :call fontsize#dec()<CR>
 nnoremap <silent> <SID>default     :call fontsize#default()<CR>
 nnoremap <silent> <SID>setDefault  :call fontsize#setDefault()<CR>
 nnoremap <silent> <SID>quit        :call fontsize#quit()<CR>
-
-command! FontsizeInc        call fontsize#inc()
-command! FontsizeDec        call fontsize#dec()
-command! FontsizeDefault    call fontsize#default()
-command! FontsizeSetDefault call fontsize#setDefault()
 
 " Restore saved 'cpoptions'.
 let cpoptions = s:save_cpoptions
